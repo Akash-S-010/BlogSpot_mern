@@ -1,40 +1,41 @@
 import jwt from "jsonwebtoken";
+import dotenv from "dotenv";
+dotenv.config();
 
-const checkAuth = (req, res, next) => {
+function checkAuth(req, res, next) {
     const accessToken = req.cookies.accessToken;
     const refreshToken = req.cookies.refreshToken;
 
     if (!accessToken || !refreshToken) {
-        return res.status(401).json({ message: "Authentication failed: No token provided" });
+        return res.status(401).json({ message: "Authentication failed: No tokens provided"});
     }
 
-    // Verify Access Token
     jwt.verify(accessToken, process.env.ACCESS_SECRET, (err, decoded) => {
         if (!err) {
-            // If access token is valid, set user ID and proceed
+            // ✅ Auth token is valid, proceed with request
             req.userId = decoded.userId;
             return next();
         }
 
-        // If Access Token is expired, verify Refresh Token
+        // ❌ Auth token is expired, check refresh token
         jwt.verify(refreshToken, process.env.REFRESH_SECRET, (refreshErr, refreshDecoded) => {
             if (refreshErr) {
-                return res.status(401).json({ message: "Authentication failed: Both tokens are invalid" });
+                return res.status(401).json({ message: "Authentication failed: Both tokens are invalid"});
             }
 
-            // Generate a new Access Token (only)
-            const newAccessToken = jwt.sign({ userId: refreshDecoded.userId }, process.env.ACCESS_SECRET, { expiresIn: "5m" });
+            // ✅ Refresh token is valid, generate a new auth token
+            const newaccessToken = jwt.sign({ userId: refreshDecoded.userId }, process.env.ACCESS_SECRET, { expiresIn: "5m" });
 
-            res.cookie("accessToken", newAccessToken, {
+            res.cookie("accessToken", newaccessToken, {
                 httpOnly: true,
-                secure: true,
-                sameSite: "none",
+                secure: false, 
+                sameSite: "lax",
             });
 
             req.userId = refreshDecoded.userId;
-            next(); 
+            next();
         });
     });
-};
+}
 
 export default checkAuth;

@@ -2,6 +2,8 @@ import bcrypt from "bcryptjs";
 import User from "../models/userModel.js";
 import sendEmail from "../utils/sendEmail.js";
 import jwt from "jsonwebtoken";
+import dotenv from "dotenv";
+dotenv.config();
 
 
 // --------User registration with OTP--------
@@ -87,26 +89,29 @@ export const login = async (req, res) => {
         const isMatch = await bcrypt.compare(password, user.password);
 
         if (!isMatch) {
-            return res.status(400).json({ message: "Invalid password" });
+            return res.status(400).json({ message: "Invalid credentials" });
         }
 
         // generate tokens
-        const accessToken = jwt.sign({userId: user._id}, process.env.ACCESS_TOKEN_SECRET, {expiresIn: "5m"});
-        const refreshToken = jwt.sign({userId: user._id}, process.env.REFRESH_TOKEN_SECRET, {expiresIn: "7d"});
+        const accessToken = jwt.sign({userId: user._id}, process.env.ACCESS_SECRET, {expiresIn: "5m"});
+        const refreshToken = jwt.sign({userId: user._id}, process.env.REFRESH_SECRET, {expiresIn: "7d"});
 
         res.cookie("accessToken", accessToken, {
             httpOnly: true,
-            secure: true,
-            sameSite: "none",
+            secure: false,
+            sameSite: "lax",
         });
 
         res.cookie("refreshToken", refreshToken, {
             httpOnly: true,
-            secure: true,
-            sameSite: "none",
+            secure: false,
+            sameSite: "lax",
         });
 
-        res.status(200).json({ message: "Login successful" });
+        res.status(200).json({ 
+            message: "Login successful",
+            user: { _id: user._id, username: user.username, email: user.email } 
+        });
 
 
     } catch (error) {
@@ -114,6 +119,28 @@ export const login = async (req, res) => {
         return res.status(500).json({ message: "Internal server error" });
     }
 };
+
+
+// ------------Get user------------
+export const getUser = async (req, res) => {
+    try {
+        const accessToken = req.cookies.accessToken;
+        if (!accessToken) return res.status(401).json({ message: "Unauthorized" });
+
+        jwt.verify(accessToken, process.env.ACCESS_SECRET, async (err, decoded) => {
+            if (err) return res.status(403).json({ message: "Invalid token" });
+
+            const user = await User.findById(decoded.userId).select("-password");
+            if (!user) return res.status(404).json({ message: "User not found" });
+
+            res.status(200).json({ user });
+        });
+    } catch (error) {
+        console.error("Error fetching user:", error);
+        res.status(500).json({ message: "Internal server error" });
+    }
+};
+
 
 
 

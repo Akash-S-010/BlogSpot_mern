@@ -63,6 +63,7 @@ export const useAuthStore = create((set) => ({
             if (res.data.user) {
                 set({ user: res.data.user, isAuthenticated: true });
                 toast.success("Login successful");
+                return true;
             } else {
                 toast.error("Login failed: No user data received");
             }
@@ -70,6 +71,7 @@ export const useAuthStore = create((set) => ({
         } catch (err) {
             toast.error(err.response?.data?.message || "Login failed");
             console.error("Login failed:", err.response?.data);
+            return false;
         } finally {
             set({ isLogging: false });
         }
@@ -78,7 +80,7 @@ export const useAuthStore = create((set) => ({
 
     logout: async () => {
         try {
-            await axios.get("http://localhost:5000/api/auth/logout", { withCredentials: true });
+            await axios.post("http://localhost:5000/api/auth/logout",{}, { withCredentials: true });
             set({ user: null, isAuthenticated: false });
             toast.success("Logout successful");
         } catch (err) {

@@ -4,15 +4,16 @@ import { useAuthStore } from "../store/useAuthStore";
 
 const Login = () => {
   const navigate = useNavigate();
-  const { login, isLoggingIn } = useAuthStore();
+  const { login, isLogging } = useAuthStore();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const handleLogin = async () => {
     const success = await login(email, password);
-    if (success) 
-      await navigate("/create");
+    if (success) {
+      await navigate("/");
+    }
   };
 
   return (
@@ -47,10 +48,10 @@ const Login = () => {
               <button
                 type="button"
                 onClick={handleLogin}
-                disabled={isLoggingIn}
+                disabled={isLogging}
                 className="w-full py-3 px-4 text-sm tracking-wide rounded-lg text-white bg-blue-600 hover:bg-blue-700 focus:outline-none"
               >
-                {isLoggingIn ? "Logging in..." : "Log in"}
+                {isLogging ? "Logging in..." : "Log in"}
               </button>
             </div>
             <p className="text-gray-800 text-sm !mt-8 text-center">

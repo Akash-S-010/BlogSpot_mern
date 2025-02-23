@@ -5,8 +5,9 @@ import Login from "./pages/Login";
 import { Toaster } from "react-hot-toast";
 import Home from "./pages/Home";
 import { useAuthStore } from "./store/useAuthStore";
-import CreateBlog from "./pages/createBlog";
+import CreateBlog from "./pages/CreateBlog";
 import Profile from "./pages/Profile";
+import BlogDetails from "./pages/BlogDetails";
 
 const App = () => {
   const { user,isAuthenticated, fetchUser } = useAuthStore();
@@ -18,13 +19,14 @@ const App = () => {
   console.log(user)
 
   return (
-    <div className="bg-gray-500">
+    <div className="bg-gray-400">
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/profile" element={<Profile />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/profile" element={isAuthenticated ? <Profile /> : <Navigate to="/login" />}/>
         <Route path="/create" element={isAuthenticated ? <CreateBlog /> : <Navigate to="/login" />}/>
+        <Route path="/blog/:id" element={<BlogDetails />} />
       </Routes>
       <Toaster />
     </div>

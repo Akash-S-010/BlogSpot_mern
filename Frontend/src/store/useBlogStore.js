@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import axios from "axios";
-import CreateBlog from "../pages/createBlog";
+import CreateBlog from "../pages/CreateBlog";
 import toast from "react-hot-toast";
 
 export const useBlogStore = create((set, get) => ({

@@ -10,7 +10,7 @@ router.post("/verify-otp", verifyOtp);
 
 router.post("/login", login);
 
-router.post("/login", logout);
+router.post("/logout", logout);
 
 router.get("/me", getUser);
 

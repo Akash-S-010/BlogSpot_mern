@@ -8,6 +8,8 @@ import { useAuthStore } from "./store/useAuthStore";
 import CreateBlog from "./pages/CreateBlog";
 import Profile from "./pages/Profile";
 import BlogDetails from "./pages/BlogDetails";
+import Footer from "./components/Footer";
+import Navbar from "./components/Navbar";
 
 const App = () => {
   const { user,isAuthenticated, fetchUser } = useAuthStore();
@@ -20,6 +22,7 @@ const App = () => {
 
   return (
     <div className="bg-gray-400">
+      <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/register" element={<Register />} />
@@ -28,6 +31,7 @@ const App = () => {
         <Route path="/create" element={isAuthenticated ? <CreateBlog /> : <Navigate to="/login" />}/>
         <Route path="/blog/:id" element={<BlogDetails />} />
       </Routes>
+      <Footer />
       <Toaster />
     </div>
   );

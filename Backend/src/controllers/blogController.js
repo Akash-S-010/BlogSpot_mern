@@ -83,23 +83,25 @@ export const deleteBlog = async (req, res) => {
     try {
         const blog = await Blog.findById(req.params.id);
 
-
-         // 🛑 Check if the logged-in user is the blog author
-         if (blog.author.toString() !== req.userId) {
-            return res.status(403).json({ message: "Unauthorized: You can only delete your own blog" });
-        }
-
+        // ✅ Check if blog exists first
         if (!blog) {
             return res.status(404).json({ message: "Blog not found" });
         }
 
-        await blog.remove();
+        // ✅ Check if the logged-in user is the blog author
+        if (blog.author?.toString() !== req.userId) {
+            return res.status(403).json({ message: "Unauthorized: You can only delete your own blog" });
+        }
+
+        // ✅ Delete blog properly
+        await Blog.findByIdAndDelete(req.params.id);
 
         res.status(200).json({ message: "Blog deleted successfully" });
     } catch (error) {
-        console.log("Error in deleteBlog", error);
+        console.error("Error in deleteBlog", error);
         res.status(500).json({ message: "Internal Server Error" });
     }
 };
+
 
 

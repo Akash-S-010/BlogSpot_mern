@@ -31,6 +31,17 @@ export const useBlogStore = create((set, get) => ({
             console.error("Failed to create blog", err);
             return false; // Indicate failure
         }
+    },
+
+    deleteBlog: async (blogId) => {
+        try {
+            await axios.delete(`http://localhost:5000/api/blog/${blogId}`, { withCredentials: true });
+            set({ blogs: get().blogs.filter((blog) => blog._id !== blogId) });
+            toast.success("Blog deleted successfully");
+        } catch (err) {
+            toast.error(err.response?.data?.message || "Blog deletion failed");
+            console.error("Failed to delete blog", err);
+        }
     }
 }));
 

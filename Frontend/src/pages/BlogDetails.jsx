@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useBlogStore } from "../store/useBlogStore";
-import Navbar from "../components/Navbar";
 import {Loader} from "lucide-react"
 
 const BlogDetails = () => {
@@ -24,8 +23,6 @@ const BlogDetails = () => {
     );
 
   return (
-    <>
-      <Navbar />
       <div className="flex flex-col  justify-center items-center bg-gray-300 py-28 min-h-screen">
         <div className="max-w-7xl mx-auto px-8 py-12 bg-white rounded-xl shadow-md">
           <h1 className="text-4xl font-bold text-gray-800">{blog.title}</h1>
@@ -42,7 +39,6 @@ const BlogDetails = () => {
           </div>
         </div>
       </div>
-    </>
   );
 };
 

@@ -22,7 +22,7 @@ export const updateProfile = async (req, res) => {
         if (!user) return res.status(404).json({ message: "User not found" });
 
         user.username = username || user.username;
-        user.profilePicture = profilePicture || user.profilePicture;
+        user.profilePic = profilePic || user.profilePic;
 
         await user.save();
         res.json({ message: "Profile updated successfully" });

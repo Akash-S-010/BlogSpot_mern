@@ -26,7 +26,8 @@ const Register = () => {
     return Object.keys(tempErrors).length === 0;
   };
 
-  const handleRegister = async () => {
+  const handleRegister = async (e) => {
+    e.preventDefault();
     if (!validate()) return;
     const success = await register(username, email, password);
     if (success) setStep(2);

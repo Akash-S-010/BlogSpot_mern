@@ -28,15 +28,26 @@ const Home = () => {
             {blogs.map((blog) => (
               <div
                 key={blog._id}
-                className="bg-white p-5 rounded-xl shadow-md hover:shadow-lg transition-all"
+                className="bg-white p-5 rounded-xl shadow-md hover:shadow-lg transition-all flex flex-col justify-between"
               >
-                <h2 className="text-xl font-semibold text-gray-800">
+                {blog.image ? (
+                  <img
+                    src={blog.image}
+                    alt={blog.title}
+                    className="w-full h-48 object-cover rounded-md mb-4"
+                  />
+                ) : (
+                  <div className="w-full h-48 bg-gray-200 rounded-md mb-4 flex items-center justify-center">
+                    <span className="text-gray-500">No Image</span>
+                  </div>
+                )}
+                <h2 className="text-2xl font-bold text-gray-800 mb-1">
                   {blog.title}
                 </h2>
                 <p className="text-sm text-gray-500">
                   By {blog.author?.username || "Unknown Author"}
                 </p>
-                <p className="text-gray-600 mt-2 text-sm line-clamp-2">
+                <p className="text-gray-600 mt-4 text-md line-clamp-2">
                   {blog.content?.substring(0, 100) || "No content available"}...
                 </p>
                 <div className="flex justify-between items-center mt-4">

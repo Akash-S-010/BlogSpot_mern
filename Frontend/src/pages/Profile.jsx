@@ -64,7 +64,7 @@ const Profile = () => {
               </h1>
               <div className="w-full flex justify-between mt-4 sm:mt-5 text-sm sm:text-base">
                 <p>Member Since</p>
-                <p>{user.createdAt.split("T")[0]}</p>
+                <p>{user.createdAt?.split("T")[0]}</p>
               </div>
             </div>
             <hr className="my-2 border border-slate-400" />

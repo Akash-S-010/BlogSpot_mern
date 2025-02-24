@@ -14,7 +14,7 @@ const Home = () => {
     <div className="flex flex-col min-h-screen bg-gray-300">
       <div className="py-8">
         <Banner />
-        <div className="my-8">
+        <div className="mt-30">
           <h1 className="text-3xl font-bold text-gray-800 text-center">
             Explore Our Blogs.
           </h1>
@@ -24,7 +24,7 @@ const Home = () => {
             No blogs available. Be the first to create one!
           </p>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 px-10">
+          <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 px-10 my-20">
             {blogs.map((blog) => (
               <div
                 key={blog._id}
@@ -52,7 +52,7 @@ const Home = () => {
                 </p>
                 <div className="flex justify-between items-center mt-4">
                   <span className="text-gray-500">
-                    👍 {blog.likes?.length || "0"} Likes
+                    ❤️ {blog.likes?.length || "0"} Likes
                   </span>
                   <Link
                     to={`/blog/${blog._id}`}

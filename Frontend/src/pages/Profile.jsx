@@ -75,9 +75,9 @@ const Profile = () => {
           </div>
         </div>
 
-        <div className="mt-6">
-          <h3 className="text-xl font-semibold text-gray-800 mb-4">
-            Your Blogs
+        <div className="mt-20">
+          <h3 className="text-2xl font-bold text-gray-800 mb-6">
+            Your Blogs :
           </h3>
           {userBlogs.length === 0 ? (
             <p className="text-gray-600">You haven’t written any blogs yet.</p>
@@ -88,6 +88,11 @@ const Profile = () => {
                   key={blog._id}
                   className="bg-white shadow-md rounded-lg p-4"
                 >
+                  <img
+                    src={blog.image}
+                    alt={blog.title}
+                    className="w-full h-48 object-cover rounded-md"
+                  />
                   <h4 className="text-lg font-bold text-gray-900">
                     {blog.title}
                   </h4>
@@ -95,10 +100,10 @@ const Profile = () => {
                     {blog.content.substring(0, 100)}...
                   </p>
                   <div className="mt-4 flex justify-end gap-2">
-                    <button className="px-4 py-2 text-sm bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition">
+                    <button className="px-4 py-2 text-sm bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition cursor-pointer">
                       Edit
                     </button>
-                    <button onClick={() => handleDelete(blog._id)} className="px-4 py-2 text-sm bg-red-500 text-white rounded-lg hover:bg-red-600 transition">
+                    <button onClick={() => handleDelete(blog._id)} className="px-4 py-2 text-sm bg-red-500 text-white rounded-lg hover:bg-red-600 transition cursor-pointer">
                       Delete
                     </button>
                   </div>

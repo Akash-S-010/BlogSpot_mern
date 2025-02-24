@@ -21,7 +21,9 @@ const Login = () => {
     return Object.keys(tempErrors).length === 0;
   };
 
-  const handleLogin = async () => {
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    
     if (!validate()) return;
     const success = await login(email, password);
     if (success) {

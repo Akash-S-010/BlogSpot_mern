@@ -30,7 +30,7 @@ const BlogDetails = () => {
           <img
             src={blog.image}
             alt={blog.title}
-            className="w-full h-96 object-cover rounded-md mt-6 mb-8"
+            className="w-full h-96 object-contain rounded-md mt-6 mb-8"
           />
         ) : (
           <div className="w-full h-96 bg-gray-200 rounded-md mt-6 mb-8 flex items-center justify-center">

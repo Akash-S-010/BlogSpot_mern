@@ -34,15 +34,15 @@ const CreateBlog = () => {
     );
 
     if (success) {
-      toast.success("Blog created successfully");
-      navigate("/");
+      navigate("/")
+      toast.success("Blog created successfully")
     } else {
       toast.error("Failed to create blog");
     }
   };
 
   return (
-      <div className="max-w-2xl mx-auto p-4 min-h-screen flex flex-col items-center justify-center">
+      <div className="max-w-5xl mx-auto p-4 min-h-screen flex flex-col items-center justify-center">
         <div className="bg-white p-8 rounded-md">
           <h2 className="text-xl font-bold text-center mb-4">
             Create a New Blog
@@ -73,7 +73,7 @@ const CreateBlog = () => {
             ></textarea>
             <button
               type="submit"
-              className="bg-blue-500 hover:bg-blue-600 transition text-white px-4 py-2 rounded"
+              className="bg-blue-500 hover:bg-blue-700 transition cursor-pointer text-white px-4 py-2 rounded"
             >
               Publish
             </button>

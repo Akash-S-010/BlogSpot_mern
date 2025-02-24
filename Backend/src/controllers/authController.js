@@ -93,18 +93,18 @@ export const login = async (req, res) => {
         }
 
         // generate tokens
-        const accessToken = jwt.sign({userId: user._id}, process.env.ACCESS_SECRET, {expiresIn: "5m"});
+        const accessToken = jwt.sign({userId: user._id}, process.env.ACCESS_SECRET, {expiresIn: "1h"});
         const refreshToken = jwt.sign({userId: user._id}, process.env.REFRESH_SECRET, {expiresIn: "7d"});
 
         res.cookie("accessToken", accessToken, {
             httpOnly: true,
-            secure: false,
+            secure: process.env.NODE_ENV === "production",
             sameSite: "lax",
         });
-
+        
         res.cookie("refreshToken", refreshToken, {
             httpOnly: true,
-            secure: false,
+            secure: process.env.NODE_ENV === "production",
             sameSite: "lax",
         });
 

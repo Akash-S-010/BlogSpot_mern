@@ -10,6 +10,7 @@ import Profile from "./pages/Profile";
 import BlogDetails from "./pages/BlogDetails";
 import Footer from "./components/Footer";
 import Navbar from "./components/Navbar";
+import NotFound from "./pages/Notfound";
 
 const App = () => {
   const { user,isAuthenticated, fetchUser } = useAuthStore();
@@ -30,6 +31,7 @@ const App = () => {
         <Route path="/profile" element={isAuthenticated ? <Profile /> : <Navigate to="/login" />}/>
         <Route path="/create" element={isAuthenticated ? <CreateBlog /> : <Navigate to="/login" />}/>
         <Route path="/blog/:id" element={<BlogDetails />} />
+        <Route path="*" element={<NotFound/>} />
       </Routes>
       <Footer />
       <Toaster />

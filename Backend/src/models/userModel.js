@@ -13,10 +13,6 @@ const UserSchema = new mongoose.Schema({
     type: String
 
   },
-  profilePic: {
-    type: String,
-    default: ""
-  },
   otp: {
     type: String
   },

@@ -35,7 +35,7 @@ const Home = () => {
             {blogs.map((blog) => (
               <div
                 key={blog._id}
-                className="bg-white p-5 rounded-xl shadow-md hover:shadow-lg transition-all flex flex-col justify-between"
+                className="bg-white p-5 rounded-xl shadow-md hover:shadow-xl transition-all flex flex-col justify-between"
               >
                 {blog.image ? (
                   <img
@@ -59,7 +59,7 @@ const Home = () => {
                 </p>
                 <div className="flex justify-between items-center mt-4">
                   <span className="text-gray-500">
-                    <FaHeart  onClick={() => handleLike(blog._id,)} className="inline-block mr-1 text-2xl text-red-500">
+                    <FaHeart  onClick={() => handleLike(blog._id,)} className="inline-block mr-1 text-2xl text-red-500 cursor-pointer">
                       Like
                     </FaHeart>{" "}
                     {blog.likes?.length || "0"} Likes

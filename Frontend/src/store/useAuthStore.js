@@ -2,6 +2,8 @@ import { create } from "zustand";
 import toast from "react-hot-toast";
 import axios from "axios";
 
+axios.defaults.withCredentials = true;
+
 export const useAuthStore = create((set) => ({
     user: null,
     isAuthenticated: false,
@@ -12,7 +14,7 @@ export const useAuthStore = create((set) => ({
 
     fetchUser: async () => {
         try {
-            const res = await axios.get("http://localhost:5000/api/auth/me", { withCredentials: true });
+            const res = await axios.get("http://localhost:5000/api/auth/me");
             if (res.data.user) {
                 set({ user: res.data.user, isAuthenticated: true });
             }
@@ -41,7 +43,7 @@ export const useAuthStore = create((set) => ({
     verifyOtp: async (email, otp) => {
         try {
             set({ isVerifying: true });
-            const res = await axios.post("http://localhost:5000/api/auth/verify-otp", { email, otp }, { withCredentials: true });
+            const res = await axios.post("http://localhost:5000/api/auth/verify-otp", { email, otp });
             set({ user: res.data.user, isAuthenticated: true });
             toast.success("Account verified successfully");
         } catch (err) {
@@ -55,10 +57,8 @@ export const useAuthStore = create((set) => ({
     login: async (email, password) => {
         try {
             set({ isLogging: true });
-
-            const res = await axios.post("http://localhost:5000/api/auth/login", { email, password }, { withCredentials: true });
-
-            console.log("Login Response:", res.data); // Debugging log
+            const res = await axios.post("http://localhost:5000/api/auth/login", { email, password });
+            console.log("Login Response:", res.data);
 
             if (res.data.user) {
                 set({ user: res.data.user, isAuthenticated: true });
@@ -67,7 +67,6 @@ export const useAuthStore = create((set) => ({
             } else {
                 toast.error("Login failed: No user data received");
             }
-
         } catch (err) {
             toast.error(err.response?.data?.message || "Login failed");
             console.error("Login failed:", err.response?.data);
@@ -80,7 +79,7 @@ export const useAuthStore = create((set) => ({
 
     logout: async () => {
         try {
-            await axios.post("http://localhost:5000/api/auth/logout",{}, { withCredentials: true });
+            await axios.post("http://localhost:5000/api/auth/logout",{});
             set({ user: null, isAuthenticated: false });
             toast.success("Logout successful");
         } catch (err) {
@@ -88,7 +87,5 @@ export const useAuthStore = create((set) => ({
             console.error("Logout failed:", err.response?.data);
         }
     },
-
-
 
 }));

@@ -1,6 +1,5 @@
 import { create } from "zustand";
 import axios from "axios";
-import CreateBlog from "../pages/CreateBlog";
 import toast from "react-hot-toast";
 
 export const useBlogStore = create((set, get) => ({
@@ -30,6 +29,23 @@ export const useBlogStore = create((set, get) => ({
             toast.error(err.response?.data?.message || "Blog creation failed");
             console.error("Failed to create blog", err);
             return false; // Indicate failure
+        }
+    },
+
+    updateBlog: async (blogId, updatedData) => {
+        try {
+            const res = await axios.put(`http://localhost:5000/api/blog/${blogId}`, updatedData);
+            set((state) => ({
+                blogs: state.blogs.map((blog) =>
+                    blog._id === blogId ? res.data.blog : blog
+                ),
+            }));
+            toast.success("Blog updated successfully");
+            return res.data.blog;
+        } catch (err) {
+            toast.error(err.response?.data?.message || "Failed to update blog");
+            console.error("Update blog failed:", err.response?.data);
+            throw err;
         }
     },
 

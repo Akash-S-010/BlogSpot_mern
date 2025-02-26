@@ -36,7 +36,7 @@ export const register = async (req, res) => {
         await user.save();
 
         // Send OTP via email
-        await sendEmail(email, "Your OTP Code", `Your OTP for registration: ${otp}`);
+        await sendEmail(email, "BlogSpot", `Your OTP for registration: ${otp}`);
 
         res.json({ message: "OTP sent to your email. Please verify to complete registration." });
     } catch (err) {
@@ -92,20 +92,15 @@ export const login = async (req, res) => {
             return res.status(400).json({ message: "Invalid credentials" });
         }
 
-        // generate tokens
-        const accessToken = jwt.sign({userId: user._id}, process.env.ACCESS_SECRET, {expiresIn: "1h"});
-        const refreshToken = jwt.sign({userId: user._id}, process.env.REFRESH_SECRET, {expiresIn: "7d"});
+        // Generate access token with 7-day lifespan
+        const accessToken = jwt.sign({userId: user._id}, process.env.ACCESS_SECRET, {expiresIn: "7d"});
 
+        // Set access token in cookie
         res.cookie("accessToken", accessToken, {
             httpOnly: true,
             secure: process.env.NODE_ENV === "production",
             sameSite: "lax",
-        });
-        
-        res.cookie("refreshToken", refreshToken, {
-            httpOnly: true,
-            secure: process.env.NODE_ENV === "production",
-            sameSite: "lax",
+            maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days in milliseconds
         });
 
         res.status(200).json({ 

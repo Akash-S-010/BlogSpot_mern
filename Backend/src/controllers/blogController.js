@@ -104,4 +104,36 @@ export const deleteBlog = async (req, res) => {
 };
 
 
+export const likeBlog = async (req, res) => {
+    try {
+        const blog = await Blog.findById(req.params.id);
+
+        if (!blog) {
+            return res.status(404).json({ message: "Blog not found" });
+        }
+
+        const userId = req.userId; // The logged-in user's ID
+
+        // Check if the user already liked the blog
+        const alreadyLiked = blog.likes.includes(userId);
+
+        if (alreadyLiked) {
+            // Unlike the blog
+            blog.likes = blog.likes.filter(id => id.toString() !== userId);
+        } else {
+            // Like the blog
+            blog.likes.push(userId);
+        }
+
+        await blog.save();
+
+        res.status(200).json({ message: alreadyLiked ? "Blog unliked" : "Blog liked", likes: blog.likes.length });
+    } catch (error) {
+        console.error("Error in likeBlog", error);
+        res.status(500).json({ message: "Internal Server Error" });
+    }
+};
+
+
+
 

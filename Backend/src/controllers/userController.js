@@ -16,12 +16,11 @@ export const getProfile = async (req, res) => {
 export const updateProfile = async (req, res) => {
     try {
 
-        const {username, image} = req.body;
+        const {image} = req.body;
 
         const user = await User.findById(req.params.id);
         if (!user) return res.status(404).json({ message: "User not found" });
 
-        user.username = username || user.username;
         user.profilePic = profilePic || user.profilePic;
 
         await user.save();

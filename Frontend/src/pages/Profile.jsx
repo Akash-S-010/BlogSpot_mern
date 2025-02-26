@@ -75,7 +75,7 @@ const Profile = () => {
           </div>
         </div>
 
-        <div className="mt-20">
+        <div className="my-20">
           <h3 className="text-2xl font-bold text-gray-800 mb-6">
             Your Blogs :
           </h3>

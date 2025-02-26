@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useBlogStore } from "../store/useBlogStore";
 import { Loader } from "lucide-react";
+import { FaHeart } from "react-icons/fa";
 
 const BlogDetails = () => {
   const navigate = useNavigate();
@@ -39,7 +40,7 @@ const BlogDetails = () => {
         )}
         <p className="mt-8 text-gray-700 text-xl leading-8">{blog.content}</p>
         <div className="flex justify-between items-center mt-5">
-          <p className="mt-4 text-gray-500">👍 {blog.likes.length} Likes</p>
+          <p className="mt-4 text-gray-500"><FaHeart className="inline text-2xl mr-2 text-red-500"/> {blog.likes.length} Likes</p>
           <button
             onClick={() => navigate("/")}
             className="bg-blue-500 hover:bg-blue-600 transition text-white px-4 py-1 rounded-md mt-4"

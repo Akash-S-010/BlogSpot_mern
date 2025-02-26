@@ -42,6 +42,19 @@ export const useBlogStore = create((set, get) => ({
             toast.error(err.response?.data?.message || "Blog deletion failed");
             console.error("Failed to delete blog", err);
         }
+    },
+
+    likeBlog: async (blogId) => {
+        try {
+            const res = await axios.patch(`http://localhost:5000/api/blog/${blogId}/like`, {}, { withCredentials: true });
+            set((state) => ({
+                blogs: state.blogs.map(blog =>
+                    blog._id === blogId ? { ...blog, likes: blog.likes.includes(blogId) ? blog.likes.filter(id => id !== blogId) : [...blog.likes, blogId] } : blog
+                )
+            }));
+        } catch (error) {
+            console.error("Error liking blog", error);
+        }
     }
 }));
 

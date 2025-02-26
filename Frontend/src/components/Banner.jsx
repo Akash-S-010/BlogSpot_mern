@@ -15,7 +15,8 @@ const Banner = () => {
       <div className="relative p-10 rounded-lg">
         <h1 className="text-3xl md:text-6xl font-bold">Welcome to BlogSpot</h1>
         <p className="text-lg md:text-xl my-7">
-          "Writing is the painting of the voice." - Voltaire
+          "Writing is the painting of the voice." - Voltaire <br />
+          Reading is the key that unlocks the doors of imagination and knowledge.
         </p>
         <button
           onClick={() => navigate("/create")}

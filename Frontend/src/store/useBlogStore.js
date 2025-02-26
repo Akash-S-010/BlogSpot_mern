@@ -7,7 +7,7 @@ export const useBlogStore = create((set, get) => ({
 
     fetchBlogs: async () => {
         try {
-            const res = await axios.get("http://localhost:5000/api/blog");
+            const res = await axios.get("https://blogspot-mern-twjo.onrender.com/api/blog");
             set({ blogs: res.data });
         } catch (err) {
             console.error("Failed to fetch blogs", err);
@@ -17,7 +17,7 @@ export const useBlogStore = create((set, get) => ({
     createBlog: async (title, content, image) => {
         try {
             const res = await axios.post(
-                "http://localhost:5000/api/blog",
+                "https://blogspot-mern-twjo.onrender.com/api/blog",
                 { title, content, image },
                 { withCredentials: true }
             );
@@ -34,7 +34,7 @@ export const useBlogStore = create((set, get) => ({
 
     updateBlog: async (blogId, updatedData) => {
         try {
-            const res = await axios.put(`http://localhost:5000/api/blog/${blogId}`, updatedData);
+            const res = await axios.put(`https://blogspot-mern-twjo.onrender.com/api/blog/${blogId}`, updatedData);
             set((state) => ({
                 blogs: state.blogs.map((blog) =>
                     blog._id === blogId ? res.data.blog : blog
@@ -51,7 +51,7 @@ export const useBlogStore = create((set, get) => ({
 
     deleteBlog: async (blogId) => {
         try {
-            await axios.delete(`http://localhost:5000/api/blog/${blogId}`, { withCredentials: true });
+            await axios.delete(`https://blogspot-mern-twjo.onrender.com/api/blog/${blogId}`, { withCredentials: true });
             set({ blogs: get().blogs.filter((blog) => blog._id !== blogId) });
             toast.success("Blog deleted successfully");
         } catch (err) {
@@ -62,7 +62,7 @@ export const useBlogStore = create((set, get) => ({
 
     likeBlog: async (blogId) => {
         try {
-            const res = await axios.patch(`http://localhost:5000/api/blog/${blogId}/like`, {}, { withCredentials: true });
+            const res = await axios.patch(`https://blogspot-mern-twjo.onrender.com/api/blog/${blogId}/like`, {}, { withCredentials: true });
             set((state) => ({
                 blogs: state.blogs.map(blog =>
                     blog._id === blogId ? { ...blog, likes: blog.likes.includes(blogId) ? blog.likes.filter(id => id !== blogId) : [...blog.likes, blogId] } : blog

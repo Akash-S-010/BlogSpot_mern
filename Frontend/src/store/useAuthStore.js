@@ -14,7 +14,7 @@ export const useAuthStore = create((set) => ({
 
     fetchUser: async () => {
         try {
-            const res = await axios.get("http://localhost:5000/api/auth/me");
+            const res = await axios.get("https://blogspot-mern-twjo.onrender.com/api/auth/me");
             if (res.data.user) {
                 set({ user: res.data.user, isAuthenticated: true });
             }
@@ -28,7 +28,7 @@ export const useAuthStore = create((set) => ({
     register: async (username, email, password) => {
         try {
             set({ isRegistering: true });
-            const res = await axios.post("http://localhost:5000/api/auth/register", { username, email, password });
+            const res = await axios.post("https://blogspot-mern-twjo.onrender.com/api/auth/register", { username, email, password });
             toast.success("OTP sent to your email. Please verify.");
             return true;
         } catch (err) {
@@ -43,7 +43,7 @@ export const useAuthStore = create((set) => ({
     verifyOtp: async (email, otp) => {
         try {
             set({ isVerifying: true });
-            const res = await axios.post("http://localhost:5000/api/auth/verify-otp", { email, otp });
+            const res = await axios.post("https://blogspot-mern-twjo.onrender.com/api/auth/verify-otp", { email, otp });
             set({ user: res.data.user, isAuthenticated: true });
             toast.success("Account verified successfully");
         } catch (err) {
@@ -57,7 +57,7 @@ export const useAuthStore = create((set) => ({
     login: async (email, password) => {
         try {
             set({ isLogging: true });
-            const res = await axios.post("http://localhost:5000/api/auth/login", { email, password });
+            const res = await axios.post("https://blogspot-mern-twjo.onrender.com/api/auth/login", { email, password });
             console.log("Login Response:", res.data);
 
             if (res.data.user) {
@@ -79,7 +79,7 @@ export const useAuthStore = create((set) => ({
 
     logout: async () => {
         try {
-            await axios.post("http://localhost:5000/api/auth/logout",{});
+            await axios.post("https://blogspot-mern-twjo.onrender.com/api/auth/logout",{});
             set({ user: null, isAuthenticated: false });
             toast.success("Logout successful");
         } catch (err) {
